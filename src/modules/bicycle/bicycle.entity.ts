@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { RentBicycle } from '../rent-bicycle/rent-bicycle.entity';
 
 @Entity({ name: 'bicycle' })
 export class Bicycle {
@@ -6,11 +7,14 @@ export class Bicycle {
   id: number;
 
   @Column()
-  text: string;
+  name: string;
 
-  @Column({ default: false })
-  checked: boolean;
+  @Column()
+  type: 'Custom' | 'Road' | 'Mountain';
 
-  // @ManyToOne(() => User, (user) => user.todos)
-  // user: User
+  @Column()
+  rent: number;
+
+  @OneToOne(() => RentBicycle, (rentBicycle) => rentBicycle.bicycle)
+  rentBicycle: RentBicycle;
 }

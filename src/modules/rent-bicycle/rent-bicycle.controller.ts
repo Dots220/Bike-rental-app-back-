@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RentBicycleService } from './rent-bicycle.service';
 import { CreateBicycleDto } from '../bicycle/dto/create-bicycle.dto';
 import { BicycleService } from '../bicycle/bicycle.service';
@@ -17,12 +17,17 @@ export class RentBicycleController {
       rentTime.rentTime,
       bicycle,
     );
-    console.log(params.id);
   }
 
   @Get()
   public async getRentBicycle() {
-    const availableBicycle = await this.bicycleService.getAvailableBicycle();
-    return availableBicycle;
+    await this.rentBicycleService.checkRentStatus();
+    const res = await this.rentBicycleService.getRentBicycle();
+    return res;
+  }
+
+  @Delete('/:id')
+  public async cancelRent(@Param() params) {
+    await this.rentBicycleService.cancelRent(params.id);
   }
 }

@@ -1,10 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { BicycleService } from './bicycle.service';
 import { CreateBicycleDto } from './dto/create-bicycle.dto';
+import { RentBicycleService } from '../rent-bicycle/rent-bicycle.service';
 
 @Controller('bicycle')
 export class BicycleController {
-  constructor(private bicycleService: BicycleService) {}
+  constructor(
+    private bicycleService: BicycleService,
+    private rentBicycleService: RentBicycleService,
+  ) {}
 
   @Post()
   public async create(@Body() bicycle: CreateBicycleDto) {
@@ -20,6 +24,7 @@ export class BicycleController {
 
   @Get()
   public async getAvailable() {
+    await this.rentBicycleService.checkRentStatus();
     const availableBicycle = await this.bicycleService.getAvailableBicycle();
     return availableBicycle;
   }

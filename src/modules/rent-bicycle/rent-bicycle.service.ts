@@ -46,6 +46,6 @@ export class RentBicycleService {
   }
 
   public async cancelRent(idProps: number) {
-    await this.rentBicycleRepository.delete({ id: idProps });
+    await this.rentBicycleRepository.delete({ bicycleId: idProps });
   }
 }

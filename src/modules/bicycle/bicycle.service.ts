@@ -37,7 +37,13 @@ export class BicycleService {
   //     .where('id = :id', { id: Id })
   //     .execute();
   // }
+  public async getRentBicycle() {
+    const res = await this.bicycleRepository.manager.query(
+      `SELECT * from bicycle b WHERE id IN (SELECT "bicycleId" from "rentBicycle")`,
+    );
 
+    return res;
+  }
   public async getAvailableBicycle() {
     // const rentBicycleId = await getConnection()
     //   .createQueryBuilder()

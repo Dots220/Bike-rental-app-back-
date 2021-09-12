@@ -22,7 +22,7 @@ export class RentBicycleController {
   @Get()
   public async getRentBicycle() {
     await this.rentBicycleService.checkRentStatus();
-    const res = await this.rentBicycleService.getRentBicycle();
+    const res = await this.bicycleService.getRentBicycle();
     return res;
   }
 
